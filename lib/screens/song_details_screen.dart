@@ -100,7 +100,6 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // ... other widgets like artwork and song details
           PlaybackControls(
             audioPlayer: audioPlayer,
             song: widget.song,
@@ -158,7 +157,6 @@ class PlaybackControls extends StatelessWidget {
           onPressed: () {
               int nextIndex = (currentIndex + 1) % songs.length;
             audioPlayer.play(DeviceFileSource(songs[nextIndex].data));
-       
             onSongChanged(nextIndex);
           },
         ),

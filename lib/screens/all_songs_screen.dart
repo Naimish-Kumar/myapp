@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/song_details_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class AllSongsScreen extends StatefulWidget {
@@ -10,7 +11,7 @@ class AllSongsScreen extends StatefulWidget {
 }
 
 class _AllSongsScreenState extends State<AllSongsScreen> {
-    final OnAudioQuery _audioQuery = OnAudioQuery();
+  final OnAudioQuery _audioQuery = OnAudioQuery();
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
@@ -31,12 +32,9 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Songs'),
-      ),
       body: FutureBuilder<List<SongModel>>(
         future: _audioQuery.querySongs(
-          sortType: SongSortType.TITLE, // or ARTIST, ALBUM, etc.
+          sortType: SongSortType.TITLE,
           orderType: OrderType.ASC_OR_SMALLER,
           uriType: UriType.EXTERNAL,
           ignoreCase: true,
@@ -57,8 +55,17 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
                 title: Text(songs![index].title),
                 subtitle: Text(songs[index].artist ?? 'Unknown Artist'),
                 onTap: () async {
-                  // Play the selected song
-                  await _audioPlayer.play(DeviceFileSource(songs[index].data));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SongDetailsScreen(
+                          song: songs[index],
+                          songs: songs,
+                          currentIndex: index),
+                    ),
+                  );
+
+                  // await _audioPlayer.play(DeviceFileSource(songs[index].data));
                 },
               );
             },

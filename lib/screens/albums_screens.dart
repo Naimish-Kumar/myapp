@@ -47,9 +47,7 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Albums'),
-      ),
+   
       body: _albumsMap.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(

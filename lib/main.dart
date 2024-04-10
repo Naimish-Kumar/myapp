@@ -9,8 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Music Player',
-      theme: AppThemes.lightTheme,
-      darkTheme: AppThemes.darkTheme,
+      debugShowCheckedModeBanner: false,
+      // theme: AppThemes.lightTheme,
+      // darkTheme: AppThemes.darkTheme,
       home: SplashScreen(),
     );
   }

@@ -40,9 +40,6 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Playlists'),
-      ),
       body: ListView.builder(
         itemCount: playlists.length,
         itemBuilder: (context, index) {

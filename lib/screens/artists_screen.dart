@@ -46,9 +46,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Artists'),
-      ),
+      
       body: _artistsMap.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
