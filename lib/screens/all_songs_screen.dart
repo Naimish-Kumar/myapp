@@ -51,7 +51,10 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
             itemCount: songs?.length,
             itemBuilder: (context, index) {
               return ListTile(
-                leading: const Icon(Icons.music_note),
+                leading: Image.asset(
+                  'assets/images/icon.png',
+                  height: 50,
+                ),
                 title: Text(songs![index].title),
                 subtitle: Text(songs[index].artist ?? 'Unknown Artist'),
                 onTap: () async {

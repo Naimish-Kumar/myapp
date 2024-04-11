@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:myapp/screens/albums_screens.dart';
 import 'package:myapp/screens/artists_screen.dart';
 import 'package:myapp/screens/playlist_screen.dart';
@@ -11,57 +11,29 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
- late TabController _tabController;
+class _MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
-  // Define the tabs for the BottomNavigationBar
-final List<BottomNavigationBarItem> bottomTabs = [
-  const BottomNavigationBarItem(
-    icon: Icon(Icons.music_note),
-    label: 'Songs',
-  ),
-  const BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    label: 'Artists',
-  ),
-  const BottomNavigationBarItem(
-    icon: Icon(Icons.album),
-    label: 'Albums',
-  ),
-
-];
-
-// Define the drawer items for the Drawer navigation
-final List<ListTile> drawerItems = [
-  ListTile(
-    leading: const Icon(Icons.music_note),
-    title: const Text('All Songs'),
-    onTap: () {
-      // Update the state to AllSongs widget
-    },
-  ),
-  ListTile(
-    leading: const Icon(Icons.person),
-    title: const Text('Artists'),
-    onTap: () {
-      // Update the state to Artists widget
-    },
-  ),
-  ListTile(
-    leading: const Icon(Icons.album),
-    title: const Text('Albums'),
-    onTap: () {
-      // Update the state to Albums widget
-    },
-  ),
-  // Add more items as needed
-];
-
+  final List<BottomNavigationBarItem> bottomTabs = [
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.music_note),
+      label: 'Songs',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.person),
+      label: 'Artists',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.album),
+      label: 'Albums',
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 4); 
+    _tabController = TabController(vsync: this, length: 4);
   }
 
   @override
@@ -70,46 +42,128 @@ final List<ListTile> drawerItems = [
     super.dispose();
   }
 
+  int _selectedIndex = 2;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Music Player'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.music_note), text: 'All Songs'),
-            Tab(icon: Icon(Icons.person), text: 'Artists'),
-            Tab(icon: Icon(Icons.album), text: 'Albums'),
-            Tab(icon: Icon(Icons.playlist_play), text: 'Playlists'),
-          ],
+        leading: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Image.asset(
+            'assets/images/logo.png',
+            height: 60,
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Navigation'),
-            ),
-            ...drawerItems, 
+        title: ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (bounds) => const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.deepPurple,
+              Colors.blue, // dark purple
+              Colors.red,
+              Colors.pink // red
+            ],
+          ).createShader(
+            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+          ),
+          child: const Text(
+            'Music Player',
+            style: TextStyle(fontSize: 30, fontFamily: 'Main Font'),
+          ),
+        ),
+        bottom: TabBar(
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorColor: Colors.blue,
+          controller: _tabController,
+          labelStyle: const TextStyle(
+              color: Colors.pink,
+              fontFamily: 'Nunito Regular',
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+          tabs: const [
+            Tab(text: 'All Songs'),
+            Tab(text: 'Artists'),
+            Tab(text: 'Albums'),
+            Tab(text: 'Playlists'),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          const AllSongsScreen(), 
-          ArtistsScreen(),  
-          const AlbumsScreen(),   
+          const AllSongsScreen(),
+          ArtistsScreen(),
+          const AlbumsScreen(),
           PlaylistsScreen(),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsets.zero,
+        surfaceTintColor: Colors.transparent,
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        child: Container(
+          height: 50,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            gradient: LinearGradient(
+              colors: [
+                Colors.deepPurple,
+                Colors.blue, // dark purple
+                Colors.red,
+                Colors.pink // re
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              buildTabItem(0, Icons.home),
+              buildTabItem(1, Icons.search),
+              const SizedBox(width: 48),
+              buildTabItem(3, Icons.notifications),
+              buildTabItem(4, Icons.person),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            color: Colors.blue,
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 8)),
+        child: Image.asset(
+          'assets/images/logo.png',
+          height: 50,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget buildTabItem(int index, IconData iconData) {
+    final isSelected = _selectedIndex == index;
+    return IconButton(
+      iconSize: isSelected && index == 2 ? 45 : 40,
+      icon: Icon(iconData),
+      color: isSelected ? Colors.white : Colors.grey,
+      onPressed: () => setState(() {
+        _selectedIndex = index;
+      }),
     );
   }
 }
-
-
