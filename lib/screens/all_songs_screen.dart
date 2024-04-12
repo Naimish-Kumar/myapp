@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/song_details_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -12,7 +11,6 @@ class AllSongsScreen extends StatefulWidget {
 
 class _AllSongsScreenState extends State<AllSongsScreen> {
   final OnAudioQuery _audioQuery = OnAudioQuery();
-  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -31,32 +29,41 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<SongModel>>(
-        future: _audioQuery.querySongs(
-          sortType: SongSortType.TITLE,
-          orderType: OrderType.ASC_OR_SMALLER,
-          uriType: UriType.EXTERNAL,
-          ignoreCase: true,
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No songs found on device.'));
-          }
-          List<SongModel>? songs = snapshot.data;
-          return ListView.builder(
-            itemCount: songs?.length,
-            itemBuilder: (context, index) {
-              return ListTile(
+    return FutureBuilder<List<SongModel>>(
+      future: _audioQuery.querySongs(
+        sortType: SongSortType.TITLE,
+        orderType: OrderType.ASC_OR_SMALLER,
+        uriType: UriType.EXTERNAL,
+        ignoreCase: true,
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No songs found on device.'));
+        }
+        List<SongModel>? songs = snapshot.data;
+        return ListView.builder(
+          itemCount: songs?.length,
+          itemBuilder: (context, index) {
+            return Card(
+              elevation: 4,
+              child: ListTile(
                 leading: Image.asset(
-                  'assets/images/icon.png',
-                  height: 50,
+                  'assets/images/logo_1.png',
+                  height: 40,
                 ),
-                title: Text(songs![index].title),
-                subtitle: Text(songs[index].artist ?? 'Unknown Artist'),
+                title: Text(
+                  songs![index].title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  songs[index].artist ?? 'Unknown Artist',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 onTap: () async {
                   Navigator.push(
                     context,
@@ -70,11 +77,11 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
 
                   // await _audioPlayer.play(DeviceFileSource(songs[index].data));
                 },
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

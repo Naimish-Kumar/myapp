@@ -53,7 +53,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
         onPressed: () {
           // Add functionality to create a new playlist
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

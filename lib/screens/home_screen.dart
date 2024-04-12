@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:myapp/screens/albums_screens.dart';
 import 'package:myapp/screens/artists_screen.dart';
 import 'package:myapp/screens/playlist_screen.dart';
@@ -40,14 +39,6 @@ class _MainScreenState extends State<MainScreen>
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  int _selectedIndex = 2;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
@@ -107,63 +98,6 @@ class _MainScreenState extends State<MainScreen>
           PlaylistsScreen(),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        padding: EdgeInsets.zero,
-        surfaceTintColor: Colors.transparent,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 6.0,
-        child: Container(
-          height: 50,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            gradient: LinearGradient(
-              colors: [
-                Colors.deepPurple,
-                Colors.blue, // dark purple
-                Colors.red,
-                Colors.pink // re
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              buildTabItem(0, Icons.home),
-              buildTabItem(1, Icons.search),
-              const SizedBox(width: 48),
-              buildTabItem(3, Icons.notifications),
-              buildTabItem(4, Icons.person),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            color: Colors.blue,
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 8)),
-        child: Image.asset(
-          'assets/images/logo.png',
-          height: 50,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-
-  Widget buildTabItem(int index, IconData iconData) {
-    final isSelected = _selectedIndex == index;
-    return IconButton(
-      iconSize: isSelected && index == 2 ? 45 : 40,
-      icon: Icon(iconData),
-      color: isSelected ? Colors.white : Colors.grey,
-      onPressed: () => setState(() {
-        _selectedIndex = index;
-      }),
     );
   }
 }

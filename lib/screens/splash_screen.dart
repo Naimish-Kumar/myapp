@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/home_screen.dart';
+import 'package:myapp/screens/dashboard_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,20 +13,15 @@ class _SplashScreenState extends State<SplashScreen> {
     // Request permissions here
     await Permission.storage.request();
     // Wait for 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 4));
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => MainScreen()));
+        context, MaterialPageRoute(builder: (context) => const Dashboard()));
   }
 
   @override
   void initState() {
     super.initState();
     _navigateToHome();
-
-    Timer(const Duration(seconds: 5), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
-    });
   }
 
   @override
@@ -55,10 +50,14 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 250,
               fit: BoxFit.cover,
             ),
-            Image.asset(
-              'assets/images/logo_text.png',
-              height: 150,
-              fit: BoxFit.cover,
+            const SizedBox(height:20),
+            const Text(
+              "Unleash Your Soundtrack",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Nunito Regular',
+                  color:Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
