@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/song_details_screen.dart';
+import 'package:myapp/screens/song_player_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class AllSongsScreen extends StatefulWidget {
+  
+
   const AllSongsScreen({super.key});
 
   @override
@@ -68,10 +70,11 @@ class _AllSongsScreenState extends State<AllSongsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SongDetailsScreen(
+                      builder: (context) => MusicPlayerScreen(
                           song: songs[index],
                           songs: songs,
-                          currentIndex: index),
+                      
+                          ),
                     ),
                   );
 
